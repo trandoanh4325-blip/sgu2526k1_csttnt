@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mày muốn tìm cái chó gì</title>
+    <link rel="stylesheet" href="../css/chat.css" />
+  </head>
+  <body>
+    <h2>Ô Tìm Kiếm Có Đầy Đủ Chức Năng</h2>
+
+    <div class="search-box">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Tìm kiếm..."
+        oninput="showSuggestions()"
+        onkeydown="checkEnter(event)"
+      />
+      <button class="clear" onclick="clearInput()">×</button>
+      <button class="search" onclick="search()">🔍</button>
+      <div id="autocomplete" class="autocomplete-box"></div>
+    </div>
+    <script src="../js/chat.js"></script>
+  </body>
+</html>

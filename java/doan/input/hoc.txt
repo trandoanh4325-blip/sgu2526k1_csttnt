@@ -1,0 +1,158 @@
+//them
+    public void them(ChiTietHoaDon cthd) {
+        try {
+            kiemTraMaTrung(cthd.getmachitiethoadon());
+            ChiTietHoaDon[] temp = Arrays.copyOf(ds, n + 1);
+            temp[n] = cthd;
+            ds = temp;
+            n++;
+            System.out.println("Da them chi tiet hoa don thanh cong!");
+        } catch (MaTrungException ex) {
+            System.out.println("Loi: " + ex.getMessage());
+        }
+    }
+
+    public void them() {
+        ChiTietHoaDon c = nhapChiTiet();
+        them(c);
+    }
+
+//tim
+    public ChiTietHoaDon timChiTietHoaDon(String machitiethoadon) {
+        for (ChiTietHoaDon c : ds) {
+            if (c != null && c.getmachitiethoadon().equals(machitiethoadon)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public void timChiTietHoaDon() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nhap ma chi tiet can tim: ");
+        String ma = sc.nextLine();
+        ChiTietHoaDon found = timChiTietHoaDon(ma);
+        if (found == null) {
+            System.out.println("Khong tim thay chi tiet hoa don co ma: " + ma);
+            return;
+        }
+        System.out.println("\n=== CHI TIET TIM THAY ===");
+        found.xuat();
+    }
+
+
+//tim
+    public ChiTietHoaDon[] timMaHoaDon(String mahoadon) {
+        ChiTietHoaDon[] kq = new ChiTietHoaDon[0];
+        for (ChiTietHoaDon c : ds) {
+            if (c != null && c.getmahoadon().equals(mahoadon)) {
+                kq = Arrays.copyOf(kq, kq.length + 1);
+                kq[kq.length - 1] = c;
+            }
+        }
+        return kq;
+    }
+
+    public void timMaHoaDon() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nhap ma hoa don can tim: ");
+        String mahoadon = sc.nextLine();
+        ChiTietHoaDon[] ketqua = timMaHoaDon(mahoadon);
+        if (ketqua.length == 0) {
+            System.out.println("Khong ton tai chi tiet thuoc hoa don: " + mahoadon);
+            return;
+        }
+        System.out.println("\n=== CHI TIET HOA DON " + mahoadon + " ===");
+        for (int i = 0; i < ketqua.length; i++) {
+            System.out.println((i + 1) + ".");
+            ketqua[i].xuat();
+        }
+    }
+    
+
+//sua
+    public void sua() {
+        if (n == 0) {
+            System.out.println("\nDanh sach rong. Khong the sua.");
+            return;
+        }
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nhap ma chi tiet hoa don can sua: ");
+        String maCTHD = sc.nextLine();
+        suaThongTinChiTietHoaDon(maCTHD, sc);
+    }
+
+    public void suaThongTinChiTietHoaDon(String maCTHD, Scanner sc) {
+        for (int i = 0; i < n; i++) {
+            if (ds[i] != null && ds[i].getmachitiethoadon().equals(maCTHD)) {
+                System.out.println("\n--- Chon thong tin can sua cho Chi Tiet Hoa Don " + maCTHD + " ---");
+                System.out.println("1. Sua ma hoa don\n2. Sua ma san pham\n3. Sua so luong\n4. Sua don gia");
+                System.out.print("Sua thong tin so: ");
+                int chon;
+                try {
+                    chon = Integer.parseInt(sc.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Lua chon khong hop le!");
+                    return;
+                }
+                
+                switch (chon) {
+                    case 1 -> { 
+                        System.out.print("Nhap ma hoa don moi: "); 
+                        ds[i].setmahoadon(sc.nextLine()); 
+                    }
+                    case 2 -> { 
+                        System.out.print("Nhap ma san pham moi: "); 
+                        ds[i].setmasanpham(sc.nextLine()); 
+                    }
+                    case 3 -> { 
+                        System.out.print("Nhap so luong moi: "); 
+                        try {
+                            // Giả định phương thức setsoluong1(int) tồn tại và hợp lệ
+                            ds[i].setsoluong(Integer.parseInt(sc.nextLine()));
+                        } catch (NumberFormatException e) { 
+                            System.out.println("So luong khong hop le!"); 
+                        } catch (Exception e) { 
+                             System.out.println("Loi khi set so luong: " + e.getMessage());
+                        }
+                    }
+                    case 4 -> { 
+                        System.out.print("Nhap don gia moi: "); 
+                        try {
+                            System.out.println("nhap don gia");
+                        } catch (NumberFormatException e) { 
+                            System.out.println("Don gia khong hop le!"); 
+                        } catch (Exception e) { 
+                             System.out.println("Loi khi set don gia: " + e.getMessage());
+                        }
+                    }
+                    default -> System.out.println("Lua chon khong hop le!");
+                }
+                System.out.println("\nĐã sửa thông tin chi tiết hóa đơn " + maCTHD);
+                return;
+            }
+        }
+        System.out.println("\nKhong tim thay ma chi tiet hoa don!");
+    }
+    
+
+//xoa
+    public void xoaChiTietHoaDon(String machitiethoadon) {
+        int index = -1;
+        for (int i = 0; i < n; i++) {
+            if (ds[i] != null && ds[i].getmachitiethoadon().equals(machitiethoadon)) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            System.out.println("Khong tim thay ma chi tiet hoa don can xoa!");
+            return;
+        }
+        for (int i = index; i < n - 1; i++) {
+            ds[i] = ds[i + 1];
+        }
+        ds = Arrays.copyOf(ds, n - 1);
+        n--;
+        System.out.println("Da xoa ma chi tiet hoa don: " + machitiethoadon);
+    }

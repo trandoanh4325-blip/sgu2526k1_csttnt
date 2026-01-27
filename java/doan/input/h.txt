@@ -1,0 +1,135 @@
+//them
+public void them(HoaDon hd) {
+        try {
+            kiemTraMaTrung(hd.getMaHoaDon());
+            ds = Arrays.copyOf(ds, n + 1);
+            ds[n] = hd;
+            n++;
+            System.out.println("Da them hoa don!");
+        } catch (MaTrungException e) {
+            System.out.println("Loi: " + e.getMessage());
+        }
+    }
+
+    public void them() {
+        HoaDon hd = nhapHoaDon();
+        them(hd);
+    }
+
+    
+//tim
+    public HoaDon timHoaDon(String ma) {
+        for (HoaDon hd : ds) {
+            if (hd != null && hd.getMaHoaDon().equals(ma)) return hd;
+        }
+        return null;
+    }
+
+    public void timHoaDon() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nhap ma hoa don can tim: ");
+        String ma = sc.nextLine();
+        HoaDon hd = timHoaDon(ma);
+        if (hd == null) {
+            System.out.println("Khong tim thay hoa don!");
+        }
+            System.out.println("\n===HOA DON CAN TIM===");
+            hd.xuat();
+    }
+
+
+//tim
+    public HoaDon[] timNgayLap(String ngay) {
+        HoaDon[] kq = new HoaDon[0];
+        for (HoaDon hd : ds) {
+            if (hd != null && hd.getNgayLap().equals(ngay)) {
+                kq = Arrays.copyOf(kq, kq.length + 1);
+                kq[kq.length - 1] = hd;
+            }
+        }
+        return kq;
+    }
+
+    public void timNgayLap() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nhap ngay lap can tim: ");
+        String ngay = sc.nextLine();
+        HoaDon[] kq = timNgayLap(ngay);
+        if (kq.length == 0)
+         System.out.println("Khong tim thay hoa don!");
+        else {
+            System.out.println("=== KET QUA TIM NGAY LAP " + ngay + " ===");
+            for (HoaDon hd : kq) hd.xuat();
+        }
+    }
+
+
+//sua
+    public void sua() {
+        if (n == 0) {
+            System.out.println("\nDanh sach rong. Khong the sua.");
+            return;
+        }
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nhap ma hoa don can sua: ");
+        String maHD = sc.nextLine();
+        suaThongTinHoaDon(maHD, sc);
+    }
+
+    public void suaThongTinHoaDon(String maHD, Scanner sc) {
+        for (int i = 0; i < n; i++) {
+            if (ds[i] != null && ds[i].getMaHoaDon().equals(maHD)) {
+                System.out.println("\n--- Chon thong tin can sua cho Hoa Don " + maHD + " ---");
+                System.out.println("1. Sua ngay lap \n 2. Sua tong tien");
+                System.out.print("Chon so: ");
+                int chon;
+                try {
+                    chon = Integer.parseInt(sc.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Lua chon khong hop le!");
+                    return;
+                }
+
+                switch (chon) {
+                    case 1 -> {
+                        System.out.print("Nhap ngay lap moi: ");
+                        ds[i].setNgayLap(sc.nextLine());
+                    }
+                    case 2 -> {
+                        System.out.print("Nhap tong tien moi: ");
+                        try {
+                            ds[i].setTongTien(Float.parseFloat(sc.nextLine()));
+                        } catch (NumberFormatException e) {
+                            System.out.println("Tong tien khong hop le!");
+                        }
+                    }
+                    default -> System.out.println("Lua chon khong hop le!");
+                }
+                System.out.println("Da sua hoa don " + maHD);
+                return;
+            }
+        }
+        System.out.println("\nKhong tim thay ma hoa don!");
+    }
+
+
+//xoa
+    public void xoaHoaDon(String maHD) {
+        int index = -1;
+        for (int i = 0; i < n; i++) {
+            if (ds[i] != null && ds[i].getMaHoaDon().equals(maHD)) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            System.out.println("Khong tim thay ma hoa don!");
+            return;
+        }
+        for (int i = index; i < n - 1; i++) {
+            ds[i] = ds[i + 1];
+         }
+        ds = Arrays.copyOf(ds, n - 1);
+        n--;
+        System.out.println("Da xoa hoa don " + maHD);
+    }

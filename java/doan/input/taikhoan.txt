@@ -1,0 +1,10 @@
+TK02,nv1,pass1,2,NV01
+TK03,nv2,pass2,2,NV02
+TK06,nv3,pass5,2,NV03
+TK07,nv4,pass6,2,NV04
+TK09,nv5,pass7,2,NV05
+TK01,nv6,pass4,2,NV10
+TK04,nv7,pass8,2,NV09
+TK05,nv8,pass9,2,NV08
+TK08,nv9,pass10,2,NV07
+TK10,nv10,pass3,2,NV06
